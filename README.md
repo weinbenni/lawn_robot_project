@@ -1,7 +1,80 @@
-## Robot Package Template
+# Lawn Robot Project
 
-This is a GitHub template. You can make your own copy by clicking the green "Use this template" button.
+Welcome to the Lawn Robot Project! This repository serves as a foundation for developing a robotic lawn mower using ROS 2 (Robot Operating System).
 
-It is recommended that you keep the repo/package name the same, but if you do change it, ensure you do a "Find all" using your IDE (or the built-in GitHub IDE by hitting the `.` key) and rename all instances of `my_bot` to whatever your project's name is.
+## Table of Contents
+- [Overview](#overview)
+- [Features](#features)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Project Structure](#project-structure)
+- [License](#license)
 
-Note that each directory currently has at least one file in it to ensure that git tracks the files (and, consequently, that a fresh clone has direcctories present for CMake to find). These example files can be removed if required (and the directories can be removed if `CMakeLists.txt` is adjusted accordingly).
+
+## Overview
+The Lawn Robot Project is a ROS2 based project that simulates a Yardforce Compact 300RBS using Gazebo Harmonic and ROS2 Jazzy.
+
+
+## Features
+- **ROS2 Integration**: All functions are implemented using ROS2 Jazzy.
+- **Gazebo Simulation**: The robot is fully modelled using Gazebo Harmonic with ROS2 Jazzy. 
+- **Full Sensor Integration**: All of the onboard sensors are modelled in Gazebo.
+
+
+## Installation
+To set up the project on your local machine, follow these steps:  
+
+1. **Clone the Repository**:  
+   ```bash
+   git clone https://github.com/weinbenni/lawn_robot_project.git
+   ```
+
+2. **Navigate to the Project Directory**:  
+   ```bash
+   cd lawn_robot_project
+   ```
+
+3. **Install Dependencies**:  
+   Ensure you have ROS 2 installed on your system. Then, install the necessary packages:  
+   ```bash
+   rosdep install --from-paths src --ignore-src -r -y
+   ```
+
+4. **Build the Project**:  
+   ```bash
+   colcon build
+   ```
+
+5. **Source the Setup Script**:  
+   ```bash
+   source install/setup.bash
+   ```
+
+
+## Usage
+After installation, you can launch the simulation environment:  
+```bash
+ros2 launch lawn_robot_bringup simulation.launch.py
+```
+This command starts the simulated environment where you can test the robot's functionalities.  
+
+
+## Project Structure
+The repository is organized as follows:  
+```
+lawn_robot_project/
+│
+├── launch/         # Launch files to start the robot and simulation environments
+├── meshes/         # 3D models and meshes used for visualization
+├── worlds/         # Simulation world files for testing the robot
+├── parameters/     # Parameters for simulation
+├── description/    # Robot description and Gazebo Configuration
+│
+├── CMakeLists.txt  # Build configuration file
+└── package.xml     # Package metadata file
+```
+
+
+
+## License
+This project is licensed under the Apache License 2.0. See the [LICENSE](LICENSE.md) file for details.  
