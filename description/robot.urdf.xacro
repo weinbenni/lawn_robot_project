@@ -1,7 +1,116 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro"  name="robot">
 
-    <!-- Example link -->
-    <link name="base_link"></link>
+    <xacro:property name="m1" value="5"/>   <!-- mass of body-->
+    <xacro:property name="mw" value="0.168"/> <!-- mass of wheels-->
 
+    <!-- Estimated Inertia-->
+    <xacro:property name="Ix_body" value="{(1/12)*m1*(0.3*0.3+0.2*0.2)}"/>
+    <xacro:property name="Iy_body" value="{(1/12)*m1*(0.4*0.4+0.3*0.3)}"/>
+    <xacro:property name="Iz_body" value="{(1/12)*m1*(0.4*0.4+0.2*0.2)}"/>
+
+    <!-- Wheel Inertia (calculated) -->
+    <xacro:property name="radius_wheel" value="0.08"/>  <!-- radius of wheel -->
+    <xacro:property name="Ixx_wheel" value="${(1.0/4.0) * mw * radius_wheel * radius_wheel}"/> <!-- inertia about x-axis -->
+    <xacro:property name="Iyy_wheel" value="${(1.0/4.0) * mw * radius_wheel * radius_wheel}"/> <!-- inertia about y-axis -->
+    <xacro:property name="Izz_wheel" value="${(1.0/2.0) * mw * radius_wheel * radius_wheel}"/> <!-- inertia about z-axis -->
+
+    <xacro:macro name="inertia_body">
+        <inertial>
+            <origin xyz="0.15 0.0 0.06" rpy="0.0 0.0 0.0"/>
+            <mass value="${m1}"/>
+            <inertia ixx="${Ix_body}" ixy="0.0" ixz="0.0" iyy="${Iy_body}" iyz="0.0" izz="${Iz_body}"/>
+        </inertial>
+    </xacro:macro>
+
+    <xacro:macro name="inertia_wheel">
+        <inertial>
+            <origin xyz="0.0 0.0 0.0" rpy="1.5707 0.0 0.0"/>
+            <mass value="${mw}"/>
+            <inertia ixx="${Ixx_wheel}" ixy="0.0" ixz="0.0" iyy="${Iyy_wheel}" iyz="0.0" izz="${Izz_wheel}"/>
+        </inertial>
+    </xacro:macro>
+
+
+    <!-- Base link -->
+    <link name="base_link">
+        <inertial>
+            <mass value="0.00001"/>  <!-- Minimal mass to satisfy Gazebo -->
+            <inertia ixx="1e-6" ixy="0.0" ixz="0.0" iyy="1e-6" iyz="0.0" izz="1e-6"/>
+        </inertial> 
+    </link>
+
+    <link name="chassis">
+        <visual>
+            <origin xyz="0.025 0.175 -0.050" rpy="0 0 0"/>
+            <geometry>
+                <mesh filename="file:///home/user/dev_ws/src/lawn_robot_project/meshes/base.dae" scale="0.001 0.001 0.001"/>
+            </geometry>
+        </visual>
+
+        <collision>
+            <origin xyz="0.0 0.0 0.06" rpy="0.0 0.0 0.0"/>
+            <geometry>
+                <box size="0.4 0.3 0.2"/>
+            </geometry>
+        </collision>
+    </link>
+
+    <joint name="chassis_joint" type="fixed">
+        <parent link="base_link"/>
+        <child link="chassis"/>
+        <origin xyz="-0.1 0 0"/>
+    </joint>
+
+    <!-- LEFT WHEEL -->
+    <joint name="left_wheel_joint" type="continuous">
+        <parent link="base_link"/>
+        <child link="left_wheel"/>
+        <origin xyz="0 0.13 0" rpy="-${pi/2} 0 0"/>
+        <axis xyz="0 0 1"/>
+    </joint>
+
+    <link name="left_wheel">
+        <visual>
+            <origin xyz="-0.08 -0.08 0" rpy="0 0 0"/>
+            <geometry>
+                <mesh filename="file:///home/user/dev_ws/src/lawn_robot_project/meshes/wheel.dae" scale="0.001 0.001 0.001"/>
+            </geometry>
+        </visual>
+
+        <collision>
+            <origin xyz="0 0.13 0" rpy="-${pi/2} 0 0"/>
+            <geometry>
+                <cylinder radius="0.08" length="0.04"/>
+            </geometry>
+        </collision>
+        <xacro:inertia_wheel />
+    </link>
+
+    <!-- RIGHT WHEEL -->
+    <joint name="right_wheel_joint" type="continuous">
+        <parent link="base_link"/>
+        <child link="right_wheel"/>
+        <origin xyz="0 -0.13 0" rpy="${pi/2} 0 0"/>
+        <axis xyz="0 0 -1"/>
+    </joint>
+
+    <link name="right_wheel">
+        <visual>
+            <origin xyz="-0.08 -0.08 0" rpy="0 0 0"/>
+            <geometry>
+                <mesh filename="file:///home/user/dev_ws/src/lawn_robot_project/meshes/wheel.dae" scale="0.001 0.001 0.001"/>
+            </geometry>
+        </visual>
+
+        <collision>
+            <origin xyz="0 0.15 0" rpy="${pi/2} 0 0"/>
+            <geometry>
+                <cylinder radius="0.08" length="0.04"/>
+            </geometry>
+        </collision>
+        <xacro:inertia_wheel />
+    </link>
+
+    <xacro:include filename="$(find lawn_robot_project)/description/robot.gazebo"/>
 </robot>
