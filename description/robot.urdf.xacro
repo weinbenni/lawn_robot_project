@@ -9,6 +9,16 @@
     <xacro:property name="Iy_body" value="{(1/12)*m1*(0.4*0.4+0.3*0.3)}"/>
     <xacro:property name="Iz_body" value="{(1/12)*m1*(0.4*0.4+0.2*0.2)}"/>
 
+    <xacro:property name="skid_mass" value="0.1"/> <!-- Mass of each skid -->
+    <xacro:property name="skid_radius" value="0.02"/> <!-- Radius of the skid (capsule) -->
+    <xacro:property name="skid_length" value="0.1"/> <!-- Length of the skid (capsule) -->
+
+    <!-- Calculate Inertia for a Capsule -->
+    <xacro:property name="inertia_xx" value="${(1/12) * skid_mass * (3 * skid_radius * skid_radius + skid_length * skid_length)}"/>
+    <xacro:property name="inertia_yy" value="${(1/12) * skid_mass * (3 * skid_radius * skid_radius + skid_length * skid_length)}"/>
+    <xacro:property name="inertia_zz" value="${(1/2) * skid_mass * skid_radius * skid_radius}"/>
+
+
     <!-- Wheel Inertia (calculated) -->
     <xacro:property name="radius_wheel" value="0.08"/>  <!-- radius of wheel -->
     <xacro:property name="Ixx_wheel" value="${(1.0/4.0) * mw * radius_wheel * radius_wheel}"/> <!-- inertia about x-axis -->
@@ -49,9 +59,9 @@
         </visual>
 
         <collision>
-            <origin xyz="0.0 0.0 0.06" rpy="0.0 0.0 0.0"/>
+            <origin xyz="0.215 0.0 0.06" rpy="0.0 0.0 0.0"/>
             <geometry>
-                <box size="0.4 0.3 0.2"/>
+                <box size="0.38 0.3 0.2"/>
             </geometry>
         </collision>
     </link>
@@ -59,14 +69,14 @@
     <joint name="chassis_joint" type="fixed">
         <parent link="base_link"/>
         <child link="chassis"/>
-        <origin xyz="-0.1 0 0"/>
+        <origin xyz="-0.1 0 0.08"/>
     </joint>
 
     <!-- LEFT WHEEL -->
     <joint name="left_wheel_joint" type="continuous">
-        <parent link="base_link"/>
+        <parent link="chassis"/>
         <child link="left_wheel"/>
-        <origin xyz="0 0.13 0" rpy="-${pi/2} 0 0"/>
+        <origin xyz="0.1 0.13 0" rpy="-${pi/2} 0 0"/>
         <axis xyz="0 0 1"/>
     </joint>
 
@@ -79,7 +89,7 @@
         </visual>
 
         <collision>
-            <origin xyz="0 0.13 0" rpy="-${pi/2} 0 0"/>
+            <origin xyz="0 0 0.01" rpy="0 0 0"/>
             <geometry>
                 <cylinder radius="0.08" length="0.04"/>
             </geometry>
@@ -89,9 +99,9 @@
 
     <!-- RIGHT WHEEL -->
     <joint name="right_wheel_joint" type="continuous">
-        <parent link="base_link"/>
+        <parent link="chassis"/>
         <child link="right_wheel"/>
-        <origin xyz="0 -0.13 0" rpy="${pi/2} 0 0"/>
+        <origin xyz="0.1 -0.13 0" rpy="${pi/2} 0 0"/>
         <axis xyz="0 0 -1"/>
     </joint>
 
@@ -104,13 +114,55 @@
         </visual>
 
         <collision>
-            <origin xyz="0 0.15 0" rpy="${pi/2} 0 0"/>
+            <origin xyz="0 0 0.01" rpy="0 0 0"/>
             <geometry>
                 <cylinder radius="0.08" length="0.04"/>
             </geometry>
         </collision>
         <xacro:inertia_wheel />
     </link>
+
+    <!-- LEFT SKID -->
+    <link name="left_skid">
+        <collision>
+            <origin xyz="0.0 0.0 0.00" rpy="0 0 0"/>
+        <geometry>
+            <cylinder radius="${skid_radius}" length="${skid_length}"/>
+        </geometry>
+        </collision>
+        <inertial>
+            <origin xyz="0.0 0.0 0.00" rpy="0 0 0"/>
+            <mass value="${skid_mass}"/>
+            <inertia ixx="${inertia_xx}" ixy="0.0" ixz="0.0" iyy="${inertia_yy}" iyz="0.0" izz="${inertia_zz}"/>
+        </inertial>
+    </link>
+
+    <joint name="left_skid_joint" type="fixed">
+        <parent link="chassis"/>
+        <child link="left_skid"/>
+        <origin xyz="0.3 -0.1 -0.03" rpy="0 0 0"/>
+    </joint>
+
+    <!-- RIGHT SKID -->
+    <link name="right_skid">
+        <collision>
+            <origin xyz="0 0 0.0" rpy="0 0 0"/>
+            <geometry>
+                <cylinder radius="${skid_radius}" length="${skid_length}"/>
+            </geometry>
+        </collision>
+        <inertial>
+            <origin xyz="0 0 0.00" rpy="0 0 0"/>
+            <mass value="${skid_mass}"/>
+            <inertia ixx="${inertia_xx}" ixy="0.0" ixz="0.0" iyy="${inertia_yy}" iyz="0.0" izz="${inertia_zz}"/>
+        </inertial>
+    </link>
+
+    <joint name="right_skid_joint" type="fixed">
+        <parent link="chassis"/>
+        <child link="right_skid"/>
+        <origin xyz="0.3 0.1 -0.03" rpy="0 0 0"/>
+    </joint>
 
     <xacro:include filename="$(find lawn_robot_project)/description/robot.gazebo"/>
 </robot>
