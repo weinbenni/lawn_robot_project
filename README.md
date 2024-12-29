@@ -12,7 +12,8 @@ Welcome to the Lawn Robot Project! This repository serves as a foundation for de
 
 
 ## Overview
-The Lawn Robot Project is a ROS2 based project that simulates a Yardforce Compact 300RBS using Gazebo Harmonic and ROS2 Jazzy.
+The Lawn Robot Project is a ROS2 based project that simulates a Yardforce Compact 300RBS using Gazebo Harmonic and ROS2 Jazzy. The main goal of the project is to create a digital version 
+of the real robot with all sensors. This is to enable programming of intelligent functions using onboard and additional sensors.
 
 
 ## Features
@@ -39,13 +40,28 @@ To set up the project on your local machine, follow these steps:
    ```bash
    rosdep install --from-paths src --ignore-src -r -y
    ```
+   Make sure you are in ```~/dev_ws/```
 
-4. **Build the Project**:  
+   Additionally you need Gazebo Harmonic installed. For testing reasons you might also want to install 
+   ```bash
+   sudo apt-get update
+   sudo apt-get install ros-${ROS_DISTRO}-ros-gz
+   sudo apt-get install ros-jazzy-teleop-twist-keyboard 
+   ```
+
+   
+
+5. **Build the Project**:  
    ```bash
    colcon build
    ```
 
-5. **Source the Setup Script**:  
+   Alternatively, to activate automatic builds on changes:
+   ```bash
+   colcon build --symlink-install
+   ```
+
+6. **Source the Setup Script**:  
    ```bash
    source install/setup.bash
    ```
@@ -54,9 +70,9 @@ To set up the project on your local machine, follow these steps:
 ## Usage
 After installation, you can launch the simulation environment:  
 ```bash
-ros2 launch lawn_robot_bringup simulation.launch.py
+ros2 launch lawn_robot_project gazebo_model.launch.py
 ```
-This command starts the simulated environment where you can test the robot's functionalities.  
+This command starts the simulated environment gazebo, as well as the joint state publisher, differential controller and the robot topic and spawns a robot object into gazebo.
 
 
 ## Project Structure
