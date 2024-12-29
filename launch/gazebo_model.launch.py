@@ -30,7 +30,7 @@ def generate_launch_description():
                                                                                                        'launch','gz_sim.launch.py'))
 
         # for custom world model
-        # azeboLaunch=IncludeLaunchDescription(gazebo_rosPackageLaunch, launch_arguments={'gz_args': ['-r -v -v4',pathWorldFile], 'on_exit_shutdown': 'true'}.items())
+        # gazeboLaunch=IncludeLaunchDescription(gazebo_rosPackageLaunch, launch_arguments={'gz_args': ['-r -v -v4',pathWorldFile], 'on_exit_shutdown': 'true'}.items())
         
         gazeboLaunch=IncludeLaunchDescription(gazebo_rosPackageLaunch, launch_arguments={'gz_args': ['-r -v -v4 empty.sdf'], 'on_exit_shutdown': 'true'}.items())
 

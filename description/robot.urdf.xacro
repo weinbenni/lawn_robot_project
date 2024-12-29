@@ -54,7 +54,8 @@
         <visual>
             <origin xyz="0.025 0.175 -0.050" rpy="0 0 0"/>
             <geometry>
-                <mesh filename="file:///home/user/dev_ws/src/lawn_robot_project/meshes/base.dae" scale="0.001 0.001 0.001"/>
+                <!--<mesh filename="file:///home/user/dev_ws/src/lawn_robot_project/meshes/base.dae" scale="0.001 0.001 0.001"/>-->
+                <mesh filename="package://lawn_robot_project/meshes/base.dae" scale="0.001 0.001 0.001"/>
             </geometry>
         </visual>
 
@@ -84,7 +85,8 @@
         <visual>
             <origin xyz="-0.08 -0.08 0" rpy="0 0 0"/>
             <geometry>
-                <mesh filename="file:///home/user/dev_ws/src/lawn_robot_project/meshes/wheel.dae" scale="0.001 0.001 0.001"/>
+                <!--<mesh filename="file:///home/user/dev_ws/src/lawn_robot_project/meshes/wheel.dae" scale="0.001 0.001 0.001"/>-->
+                <mesh filename="package://lawn_robot_project/meshes/wheel.dae" scale="0.001 0.001 0.001"/>
             </geometry>
         </visual>
 
@@ -109,7 +111,8 @@
         <visual>
             <origin xyz="-0.08 -0.08 0" rpy="0 0 0"/>
             <geometry>
-                <mesh filename="file:///home/user/dev_ws/src/lawn_robot_project/meshes/wheel.dae" scale="0.001 0.001 0.001"/>
+                <!--<mesh filename="file:///home/user/dev_ws/src/lawn_robot_project/meshes/wheel.dae" scale="0.001 0.001 0.001"/>-->
+                <mesh filename="package://lawn_robot_project/meshes/wheel.dae" scale="0.001 0.001 0.001"/>
             </geometry>
         </visual>
 
