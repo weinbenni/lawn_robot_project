@@ -35,9 +35,8 @@ if(BUILD_TESTING)
 endif()
 
 install(
-  DIRECTORY config description launch worlds parameters
+  DIRECTORY config description launch worlds parameters meshes
   DESTINATION share/${PROJECT_NAME}
-  DIRECTORY meshes DESTINATION share/${PROJECT_NAME}
 )
 
 

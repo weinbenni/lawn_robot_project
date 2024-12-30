@@ -21,8 +21,8 @@ def generate_launch_description():
         pathModelFile = os.path.join(get_package_share_directory(namePackage), modelFileRelativePath)
 
         # Uncomment to use custom built world
-        # worldFileRelativePath = "model/world.world"
-        # pathWorldFile = os.path.join(get_package_share_directory(namePackage), worldFileRelativePath)
+        worldFileRelativePath = "worlds/test.sdf"
+        pathWorldFile = os.path.join(get_package_share_directory(namePackage), worldFileRelativePath)
 
         robotDescription = xacro.process_file(pathModelFile).toxml()
 
@@ -30,9 +30,15 @@ def generate_launch_description():
                                                                                                        'launch','gz_sim.launch.py'))
 
         # for custom world model
-        # gazeboLaunch=IncludeLaunchDescription(gazebo_rosPackageLaunch, launch_arguments={'gz_args': ['-r -v -v4',pathWorldFile], 'on_exit_shutdown': 'true'}.items())
+        gazeboLaunch = IncludeLaunchDescription(
+                gazebo_rosPackageLaunch, 
+                launch_arguments={
+                        'gz_args': f'-r -v -v4 {pathWorldFile}',
+                        'on_exit_shutdown': 'true'
+                }.items()
+        )
         
-        gazeboLaunch=IncludeLaunchDescription(gazebo_rosPackageLaunch, launch_arguments={'gz_args': ['-r -v -v4 empty.sdf'], 'on_exit_shutdown': 'true'}.items())
+        # gazeboLaunch=IncludeLaunchDescription(gazebo_rosPackageLaunch, launch_arguments={'gz_args': ['-r -v -v4 empty.sdf'], 'on_exit_shutdown': 'true'}.items())
 
         # Gazebo node
         spawnModelNodeGazebo = Node(
