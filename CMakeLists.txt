@@ -34,9 +34,15 @@ if(BUILD_TESTING)
   ament_lint_auto_find_test_dependencies()
 endif()
 
+
+
 install(
-  DIRECTORY config description launch worlds parameters meshes
+  DIRECTORY config description launch worlds parameters meshes scripts
   DESTINATION share/${PROJECT_NAME}
+)
+install(PROGRAMS
+  scripts/scan_to_range.py  # Replace with the relative path to your Python script
+  DESTINATION lib/${PROJECT_NAME}
 )
 
 

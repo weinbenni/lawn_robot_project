@@ -21,7 +21,7 @@ def generate_launch_description():
         pathModelFile = os.path.join(get_package_share_directory(namePackage), modelFileRelativePath)
 
         # Uncomment to use custom built world
-        worldFileRelativePath = "worlds/test.sdf"
+        worldFileRelativePath = "worlds/garden.sdf"
         pathWorldFile = os.path.join(get_package_share_directory(namePackage), worldFileRelativePath)
 
         robotDescription = xacro.process_file(pathModelFile).toxml()
@@ -29,16 +29,17 @@ def generate_launch_description():
         gazebo_rosPackageLaunch=PythonLaunchDescriptionSource(os.path.join(get_package_share_directory('ros_gz_sim'),
                                                                                                        'launch','gz_sim.launch.py'))
 
+        guiFileRelativePath = "worlds/gui.config"
         # for custom world model
         gazeboLaunch = IncludeLaunchDescription(
                 gazebo_rosPackageLaunch, 
                 launch_arguments={
-                        'gz_args': f'-r -v -v4 {pathWorldFile}',
+                        'gz_args': f'-r -v -v4 {pathWorldFile} ',               #--gui-config {guiFileRelativePath}
                         'on_exit_shutdown': 'true'
                 }.items()
         )
         
-        # gazeboLaunch=IncludeLaunchDescription(gazebo_rosPackageLaunch, launch_arguments={'gz_args': ['-r -v -v4 empty.sdf'], 'on_exit_shutdown': 'true'}.items())
+        #gazeboLaunch=IncludeLaunchDescription(gazebo_rosPackageLaunch, launch_arguments={'gz_args': ['-r -v -v4 empty.sdf'], 'on_exit_shutdown': 'true'}.items())
 
         # Gazebo node
         spawnModelNodeGazebo = Node(
@@ -76,6 +77,25 @@ def generate_launch_description():
                 output = 'screen',
         )
 
+        # Adding the LaserScanToRange Node for both left and right ultrasonic sensors
+        laser_scan_to_range_node = Node(
+                package='lawn_robot_project',  # Replace with your package name
+                executable='scan_to_range.py',  # Replace with your Python script name (without the .py extension)
+                name='scan_to_range',
+                output='screen',
+        )
+
+        ekf_node = Node(
+                package='robot_localization',
+                executable='ekf_node',
+                name='ekf_filter_node',
+                output='screen',
+                parameters=[
+                os.path.join(get_package_share_directory(namePackage), 'parameters', 'ekf.yaml'),
+                {'use_sim_time': True}
+                ]
+        )
+
         launchDescriptionObject = LaunchDescription()
 
         launchDescriptionObject.add_action(gazeboLaunch)
@@ -83,6 +103,8 @@ def generate_launch_description():
         launchDescriptionObject.add_action(spawnModelNodeGazebo)
         launchDescriptionObject.add_action(nodeRobotStatePublisher)
         launchDescriptionObject.add_action(start_gazebo_ros_bridge_cmd)
+        launchDescriptionObject.add_action(laser_scan_to_range_node)
+        launchDescriptionObject.add_action(ekf_node)
 
         return launchDescriptionObject
         

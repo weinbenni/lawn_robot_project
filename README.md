@@ -39,6 +39,7 @@ To set up the project on your local machine, follow these steps:
    Ensure you have ROS 2 installed on your system. Then, install the necessary packages:  
    ```bash
    rosdep install --from-paths src --ignore-src -r -y
+   sudo apt install ros-jazzy-robot-localization
    ```
    Make sure you are in ```~/dev_ws/```
 

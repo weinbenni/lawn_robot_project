@@ -8,13 +8,13 @@
 </gazebo>
 
 <gazebo reference="left_wheel_joint">
-    <mu1>0.2</mu1>
-    <mu2>0.2</mu2>
+    <mu1>0.5</mu1>
+    <mu2>0.5</mu2>
 </gazebo>
 
 <gazebo reference="right_wheel_joint">
-    <mu1>0.2</mu1>
-    <mu2>0.2</mu2>
+    <mu1>0.5</mu1>
+    <mu2>0.5</mu2>
 </gazebo>
 
 <!-- LEFT SKID -->
@@ -58,6 +58,88 @@
     <joint_name>right_wheel_joint</joint_name>
 </plugin>
 
+<plugin
+    filename="gz-sim-sensors-system"
+    name="gz::sim::systems::Sensors">
+    <render_engine>ogre2</render_engine>
+</plugin>
 </gazebo>
+
+<gazebo reference="scan_link_left">
+    <sensor name="gpu_lidar_left" type="gpu_lidar">
+      <update_rate>2</update_rate>
+      <topic>scan_left</topic>
+      <gz_frame_id>scan_link_left</gz_frame_id>
+      <lidar>
+        <scan>
+            <horizontal>s
+            <samples>20</samples>
+            <resolution>1</resolution>
+            <min_angle>-0.218166</min_angle> <!-- -12.5 degrees -->
+            <max_angle>0.218166</max_angle>  <!-- 12.5 degrees -->
+            </horizontal>
+        </scan>
+        <range>
+          <min>0.05</min>
+          <max>4.0</max>
+          <resolution>0.01</resolution>
+        </range>
+        <noise>
+            <type>gaussian</type>
+            <mean>0.0</mean>
+            <stddev>0.01</stddev>
+        </noise>
+        <frame_id>scan_link_left</frame_id>
+      </lidar>
+      <always_on>1</always_on>
+      <visualize>true</visualize>
+    </sensor>
+  </gazebo>
+
+<gazebo reference="scan_link_right">
+    <sensor name="gpu_lidar_right" type="gpu_lidar">
+      <update_rate>2</update_rate>
+      <topic>scan_right</topic>
+      <gz_frame_id>scan_link_right</gz_frame_id>
+      <lidar>
+        <scan>
+            <horizontal>s
+            <samples>20</samples>
+            <resolution>1</resolution>
+            <min_angle>-0.218166</min_angle> <!-- -12.5 degrees -->
+            <max_angle>0.218166</max_angle>  <!-- 12.5 degrees -->
+            </horizontal>
+        </scan>
+        <range>
+          <min>0.05</min>
+          <max>4.0</max>
+          <resolution>0.01</resolution>
+        </range>
+        <noise>
+            <type>gaussian</type>
+            <mean>0.0</mean>
+            <stddev>0.01</stddev>
+        </noise>
+        <frame_id>scan_link_right</frame_id>
+      </lidar>
+      <always_on>1</always_on>
+      <visualize>true</visualize>
+    </sensor>
+  </gazebo>
+
+  <gazebo reference="imu_link">
+    <sensor name="imu" type="imu">
+      <always_on>1</always_on>
+      <update_rate>50</update_rate>
+      <visualize>true</visualize>
+      <topic>imu</topic>
+      <enable_metrics>true</enable_metrics>
+      <gz_frame_id>imu_link</gz_frame_id>
+    </sensor>
+  </gazebo>
+    <plugin
+      filename="gz-sim-imu-system"
+      name="gz::sim::systems::Imu">
+    </plugin>
 
 </robot>

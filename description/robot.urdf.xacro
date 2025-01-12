@@ -167,5 +167,86 @@
         <origin xyz="0.3 0.1 -0.03" rpy="0 0 0"/>
     </joint>
 
-    <xacro:include filename="$(find lawn_robot_project)/description/robot.gazebo"/>
+
+
+  <joint type="fixed" name="scan_joint_left">
+    <origin xyz="0.18 0.08 0.17" rpy="0 0 0"/>
+    <child link="scan_link_left"/>
+    <parent link="base_link"/>
+    <axis xyz="0 1 0" rpy="0 0 0"/>
+  </joint>
+
+  <link name='scan_link_left'>
+    <inertial>
+      <mass value="1e-5"/>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <inertia
+          ixx="1e-6" ixy="0" ixz="0"
+          iyy="1e-6" iyz="0"
+          izz="1e-6"
+      />
+    </inertial>
+    <collision name='collision'>
+      <origin xyz="0 0 0" rpy="0 0 0"/> 
+      <geometry>
+        <box size=".01 .01 .01"/>
+      </geometry>
+    </collision>
+
+  </link>
+
+  <gazebo reference="scan_link_left">
+    <selfCollide>false</selfCollide>
+    <mu1 value="0.05" />
+    <mu2 value="0.05" />
+  </gazebo>
+
+  <joint type="fixed" name="scan_joint_right">
+    <origin xyz="0.18 -0.08 0.17" rpy="0 0 0"/>
+    <child link="scan_link_right"/>
+    <parent link="base_link"/>
+    <axis xyz="0 1 0" rpy="0 0 0"/>
+  </joint>
+
+  <link name='scan_link_right'>
+    <inertial>
+      <mass value="1e-5"/>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <inertia
+          ixx="1e-6" ixy="0" ixz="0"
+          iyy="1e-6" iyz="0"
+          izz="1e-6"
+      />
+    </inertial>
+    <collision name='collision'>
+      <origin xyz="0 0 0" rpy="0 0 0"/> 
+      <geometry>
+        <box size=".01 .01 .01"/>
+      </geometry>
+    </collision>
+
+  </link>
+
+  <gazebo reference="scan_link_right">
+    <selfCollide>false</selfCollide>
+    <mu1 value="0.05" />
+    <mu2 value="0.05" />
+  </gazebo>
+
+   <!-- IMU -->
+  <joint name="imu_joint" type="fixed">
+    <origin xyz="0 0 0" rpy="0 0 0" />
+    <parent link="base_link"/>
+    <child link="imu_link" />
+  </joint>
+
+  <link name="imu_link">
+  </link>
+
+  
+
+
+
+  <xacro:include filename="$(find lawn_robot_project)/description/robot.gazebo"/>
+
 </robot>
