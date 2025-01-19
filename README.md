@@ -12,8 +12,7 @@ Welcome to the Lawn Robot Project! This repository serves as a foundation for de
 
 
 ## Overview
-The Lawn Robot Project is a ROS2 based project that simulates a Yardforce Compact 300RBS using Gazebo Harmonic and ROS2 Jazzy. The main goal of the project is to create a digital version 
-of the real robot with all sensors. This is to enable programming of intelligent functions using onboard and additional sensors.
+The Lawn Robot Project is a ROS2 based project that simulates a Yardforce Compact 300RBS using Gazebo Harmonic and ROS2 Jazzy. The main goal of the project is to create a digital version of the real robot with all sensors. This is to enable programming of intelligent functions using onboard and additional sensors.
 
 
 ## Features
@@ -75,6 +74,12 @@ ros2 launch lawn_robot_project gazebo_model.launch.py
 ```
 This command starts the simulated environment gazebo, as well as the joint state publisher, differential controller and the robot topic and spawns a robot object into gazebo.
 
+This model can be used for further applications or be tele-operated.
+
+### Autonomus control modes
+The project includes two patterns:
+ - a random pattern, bounded by the boundaries defined in ```config/boundaries.yaml```.
+ - a Boustrophedon pattern, implemented without decomposition. Only base functionality is implemented.
 
 ## Project Structure
 The repository is organized as follows:  
@@ -83,14 +88,15 @@ lawn_robot_project/
 │
 ├── launch/         # Launch files to start the robot and simulation environments
 ├── meshes/         # 3D models and meshes used for visualization
+├── config/         # Configuration files for the sensor fusion using EKF and boundaries
+├── msg/            # custom message definitions
 ├── worlds/         # Simulation world files for testing the robot
 ├── parameters/     # Parameters for simulation
-├── description/    # Robot description and Gazebo Configuration
+├── description/    # Robot description and Gazebo configuration
 │
 ├── CMakeLists.txt  # Build configuration file
 └── package.xml     # Package metadata file
 ```
-
 
 
 ## License
