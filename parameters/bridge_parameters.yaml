@@ -54,3 +54,10 @@
   ros_type_name: "sensor_msgs/msg/Imu"
   gz_type_name: "gz.msgs.IMU"
   direction: GZ_TO_ROS
+
+# Example for subscribing to the pose vector and converting to Pose in ROS2
+- ros_topic_name: "/robot_poses"
+  gz_topic_name: "/world/garden/pose/info"
+  ros_type_name: "geometry_msgs/msg/PoseArray"  # ROS2 message for multiple poses
+  gz_type_name: "gz.msgs.Pose_V"  # Publisher sends Pose_V (vector of poses)
+  direction: GZ_TO_ROS

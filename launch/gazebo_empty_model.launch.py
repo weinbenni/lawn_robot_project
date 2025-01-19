@@ -39,7 +39,7 @@ def generate_launch_description():
                 }.items()
         )
         
-        #gazeboLaunch=IncludeLaunchDescription(gazebo_rosPackageLaunch, launch_arguments={'gz_args': ['-r -v -v4 empty.sdf'], 'on_exit_shutdown': 'true'}.items())
+        gazeboLaunch=IncludeLaunchDescription(gazebo_rosPackageLaunch, launch_arguments={'gz_args': ['-r -v -v4 empty.sdf'], 'on_exit_shutdown': 'true'}.items())
 
         # Gazebo node
         spawnModelNodeGazebo = Node(
@@ -116,7 +116,6 @@ def generate_launch_description():
         launchDescriptionObject = LaunchDescription()
 
         launchDescriptionObject.add_action(gazeboLaunch)
-
         launchDescriptionObject.add_action(spawnModelNodeGazebo)
         launchDescriptionObject.add_action(nodeRobotStatePublisher)
         launchDescriptionObject.add_action(start_gazebo_ros_bridge_cmd)

@@ -9,7 +9,7 @@
     <xacro:property name="Iy_body" value="{(1/12)*m1*(0.4*0.4+0.3*0.3)}"/>
     <xacro:property name="Iz_body" value="{(1/12)*m1*(0.4*0.4+0.2*0.2)}"/>
 
-    <xacro:property name="skid_mass" value="0.1"/> <!-- Mass of each skid -->
+    <xacro:property name="skid_mass" value="0.05"/> <!-- Mass of each skid -->
     <xacro:property name="skid_radius" value="0.02"/> <!-- Radius of the skid (capsule) -->
     <xacro:property name="skid_length" value="0.1"/> <!-- Length of the skid (capsule) -->
 
@@ -242,10 +242,6 @@
 
   <link name="imu_link">
   </link>
-
-  
-
-
 
   <xacro:include filename="$(find lawn_robot_project)/description/robot.gazebo"/>
 

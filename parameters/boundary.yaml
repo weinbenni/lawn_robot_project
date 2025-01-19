@@ -1,0 +1,8 @@
+boundary:
+  - [2.3, -5.8]   # Start of Boundary Wire 1
+  - [2.3, 5.8]    # End of Boundary Wire 1, Start of Boundary Wire 2
+  - [-4.3, 5.8]   # End of Boundary Wire 2, Start of Boundary Wire 3
+  - [-4.3, 2.2]   # End of Boundary Wire 3, Start of Boundary Wire 4
+  - [-2.3, 2.2]   # End of Boundary Wire 4, Start of Boundary Wire 5
+  - [-2.3, -5.8]  # End of Boundary Wire 5, Start of Boundary Wire 6
+  - [2.3, -5.8]   # Loop back to the start of Boundary Wire 1

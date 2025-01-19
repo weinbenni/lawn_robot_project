@@ -1,5 +1,5 @@
 <sdf version='1.10'>
-  <world name='world_demo'>
+  <world name='garden'>
     <physics name='1ms' type='ignored'>
       <max_step_size>0.001</max_step_size>
       <real_time_factor>1</real_time_factor>
@@ -514,11 +514,6 @@
         name="gz::sim::systems::Contact">
     </plugin>
 
-    <!-- <plugin
-        name="collider_pose_publisher"
-        filename="liblawn_robot_project.so">
-      <topic>/collider_poses</topic>
-    </plugin> -->
 
 
   </world>

@@ -1,4 +1,28 @@
 #!/usr/bin/env python3
+# Node Name: LaserScanToRange
+# Description:
+# This ROS2 node converts laser scan data from two ultrasonic sensors (left and right) into range measurements.
+# It subscribes to `LaserScan` messages from both the left and right ultrasonic sensors and processes them to 
+# produce the closest valid range measurement. These range values are then published as `Range` messages.
+# Additionally, the node publishes a string message to indicate that the scan has been processed and the range value.
+#
+# Key Functionalities:
+# - Subscribes to two ROS LaserScan topics (`/ultrasonic_sensors/scan_left`, `/ultrasonic_sensors/scan_right`) to get the sensor readings.
+# - Filters out invalid readings (`inf` and `NaN` values) from the scan data and computes the minimum range.
+# - Publishes the processed range values as `Range` messages to two different topics (`/ultrasonic_sensors/range_left`, `/ultrasonic_sensors/range_right`).
+# - Publishes a string message indicating the range value from each sensor, providing logging information to a designated topic (`/ultrasonic_sensors/callback_info`).
+#
+# Published Topics:
+# - `/ultrasonic_sensors/range_left` (sensor_msgs/Range): Contains the closest range measurement for the left sensor.
+# - `/ultrasonic_sensors/range_right` (sensor_msgs/Range): Contains the closest range measurement for the right sensor.
+# - `/ultrasonic_sensors/callback_info` (std_msgs/String): Provides logging information indicating that the laser scan was processed.
+#
+# Behavior Logic:
+# - The node subscribes to `LaserScan` messages from the left and right sensors.
+# - For each sensor, it filters out invalid range values (e.g., `inf` and `NaN`), then publishes the minimum valid range.
+# - It also publishes a string message with the processed range value for debugging or logging purposes.
+# - The `Range` message is populated with the closest range, the field of view, and the range limits.
+
 import rclpy
 from rclpy.node import Node
 from sensor_msgs.msg import LaserScan, Range
